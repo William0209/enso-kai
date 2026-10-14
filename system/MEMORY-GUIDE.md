@@ -29,20 +29,23 @@ Save it only if all three are true:
   ---
   name: <slug>
   description: <one line: what it is and when it matters>
-  type: user | feedback | project | reference
-  project: <repo-name>          # omit when it applies everywhere
+  metadata:
+    type: user | feedback | project | reference
+    project: <slug>             # REQUIRED for type project; omit only for facts that apply everywhere
   ---
   <The fact, first line.>
   **Why:** <reason>             # feedback and project
   **How to apply:** <rule>      # feedback and project
   ```
+- This is Claude Code's native memory format. It adds bookkeeping fields under `metadata` (such as `modified`) itself; leave them alone.
+- **Project slug** = the folder name of `git rev-parse --show-toplevel`, or of the working directory outside git. A project memory without `metadata.project` can't be found by `/begin`.
 - **Dates are absolute** (2026-10-14, not "next Friday"). Link related memories with `[[slug]]`.
 - **Contradictions:** the newer confirmed fact wins. Rewrite the memory; don't append "UPDATE:".
 
 ## Writing the index line (this is what makes recall work)
 `- [Title](file.md) — hook`
 - The **hook names the words a future question would use**, including synonyms: `JWT auth: 15-min access + 7-day refresh tokens (login, session, token expiry)`.
-- Put the project name first for project memories: `EcoStay — …`.
+- **Project memories always start with the project slug**: `shop-api — deploys via Docker Compose to Hetzner (hosting, deploy, infra)`.
 - Keep it under ~150 characters, one line per memory, grouped under `## User`, `## Feedback`, `## Project` and `## Reference`.
 
 ## Reading

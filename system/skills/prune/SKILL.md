@@ -15,12 +15,12 @@ Follow the rules in `MEMORY-GUIDE.md`. Run these checks on the memory directory 
 |---|---|
 | Index drift | Files with no `MEMORY.md` line, and index lines pointing to missing files |
 | Index size | `MEMORY.md` line count. Warn above 150 lines (only 200 load) |
-| Index quality | Hooks too vague to be found (no subject words or synonyms, no project name) → rewrite per the guide |
+| Index quality | Check **every** index line: the hook needs the subject plus 2+ words or synonyms a future question would use, and project memories must start with the project slug. Hooks of 1–3 generic words (`— hosting`, `— ci`) fail → rewrite per the guide |
 | Duplicates | Memories with the same subject, or near-identical descriptions → merge |
 | Wrong facts | Memories naming files, flags, commands or repos: check that each still exists → fix or delete |
 | Stale | `project` memories untouched (`modified`) for 90+ days, or about finished work → archive |
-| Format | Missing frontmatter fields (`name`, `description`, `type`) → repair |
-| Secrets | Grep for key-like strings (`sk-`, `ghp_`, `gho_`, `xox`, `AKIA`, `-----BEGIN`, long base64) → **remove immediately**, then tell the user to rotate the key |
+| Format | Missing `name`, `description` or `metadata.type`, or a `project` memory without `metadata.project` → repair |
+| Secrets | Grep for key-like strings (`sk-`/`sk_`, `pk_`/`rk_`, `ghp_`/`gho_`/`github_pat_`, `glpat-`, `xox[bpa]-`, `AKIA`, `AIza`, `-----BEGIN`, `Bearer `, or a long random string after `key`/`token`/`secret`/`password`) → **remove immediately**, then tell the user to rotate the key |
 
 ## 2. Apply what the user approves
 - **Merge:** fold content into the better memory, delete the other, and fix any `[[links]]` that pointed to it.

@@ -22,7 +22,7 @@ One task, one tool. When a request matches a row, use that tool; don't reach for
 |---|---|---|
 | Quick fact or doc lookup | `WebSearch`, then `WebFetch` on the best hit | `/deep-research` |
 | Read a known URL | `WebFetch` | Search |
-| Cited multi-source report | `/deep-research` | A pile of ad-hoc searches |
+| Cited multi-source report | `/deep-research` (if unavailable: a research subagent using `WebSearch` + `WebFetch`) | A pile of ad-hoc searches |
 
 ## Memory and sessions
 

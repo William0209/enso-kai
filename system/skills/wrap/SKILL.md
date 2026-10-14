@@ -12,7 +12,7 @@ disable-model-invocation: true
    ```markdown
    last_task: <what we were doing>
    last_branch: <current branch or "-">
-   stopped_at: <ISO 8601 timestamp>
+   stopped_at: <ISO 8601 timestamp: read the real clock, e.g. `date -u +%Y-%m-%dT%H:%M:%SZ` or PowerShell `Get-Date -Format o`>
    one_liner: <where we stopped and what's next, ≤ 120 chars>
    ```
 4. **Flag loose ends**: uncommitted changes, failing tests, unpushed commits. Don't commit or push the project for the user.
