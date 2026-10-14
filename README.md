@@ -15,7 +15,8 @@ In Zen painting, an ensō drawn with a gap is deliberately unfinished: it leaves
 
 ```
 system/
-├── CLAUDE.md        # global instructions + memory protocol (imported into ~/.claude/CLAUDE.md)
+├── CLAUDE.md        # global instructions (imported into ~/.claude/CLAUDE.md)
+├── MEMORY-GUIDE.md  # how memory is saved, indexed, read and maintained
 ├── ROUTING.md       # task → tool table: one task, one tool
 ├── memory/          # your brain (Claude Code autoMemoryDirectory) — starts empty
 │   ├── MEMORY.md    # index, one line per memory (rules: MEMORY-GUIDE.md)
