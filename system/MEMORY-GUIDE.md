@@ -8,6 +8,8 @@ Save it only if all three are true:
 2. **It can't be derived** from the code, git history or a CLAUDE.md.
 3. **It's confirmed**: the user said it, or it was verified. No guesses.
 
+**Write only what the source says.** Don't embellish: no invented reasons, examples, surnames or stack details. If the user or the imported memory gives no reason, write `**Why:** not recorded` rather than making one up.
+
 | Type | Save | Example |
 |---|---|---|
 | `user` | Role, expertise, preferences | "Prefers short answers, tables over prose" |
