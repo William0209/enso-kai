@@ -1,0 +1,12 @@
+# Plaintext secrets: only *.enc.* files are committed
+secrets/.env
+secrets/*.dec.*
+*.pem
+*.key
+keys.txt
+
+# Local-only
+CLAUDE.local.md
+.claude/settings.local.json
+.DS_Store
+Thumbs.db
