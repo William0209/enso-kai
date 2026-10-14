@@ -20,4 +20,5 @@ Fast and quiet: load context, show a few lines, get to work.
    Context: <one line per memory used>
    Task: <$ARGUMENTS or "none given — what are we doing?">
    ```
-6. If the branch differs from `last_branch` or there are uncommitted changes from before, mention it once. Then start the task.
+6. **Memory health check (one line, only when due).** Read `<memory dir>/sessions/_health.md`. If `last_prune` is more than 30 days ago or missing while the index has 20+ entries, or `MEMORY.md` is over 120 lines, add: `Memory: last pruned <date>, index <n> lines — run /prune when convenient.`
+7. If the branch differs from `last_branch` or there are uncommitted changes from before, mention it once. Then start the task.

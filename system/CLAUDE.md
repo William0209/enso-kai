@@ -9,26 +9,9 @@ You are working inside an Ensō system: a lean Claude Code setup built around on
 - Report outcomes faithfully: show failing output, say what was skipped, and state verified results plainly.
 - Never write secrets (API keys, tokens, passwords) into memory, code, commits or chat.
 
-## Memory protocol
+## Memory
 
-Memory lives in the directory set by `autoMemoryDirectory` (this system's `system/memory/`). It is shared by every project and synced across devices with `/sync`.
-
-- **One fact per file**, with frontmatter:
-  ```markdown
-  ---
-  name: kebab-case-slug
-  description: one line, used to decide relevance during recall
-  type: user | feedback | project | reference
-  project: repo-name        # optional; omit for facts that apply everywhere
-  ---
-  The fact. For feedback/project add **Why:** and **How to apply:** lines.
-  ```
-- **Index every memory** with one line in `MEMORY.md`: `- [Title](file.md) — hook`. Keep the index under 150 lines; only the first 200 load.
-- **Update, don't duplicate.** Check for an existing memory before writing a new one.
-- **Verify before acting.** A memory reflects the past. If it names a file, function, flag or command, confirm it still exists before relying on it. If it's wrong, fix or delete it.
-- **Don't store what the repo already records**: code structure, git history, or anything in a CLAUDE.md.
-- Link related memories with `[[name]]`.
-- `sessions/` holds per-project resume state (`/begin`, `/wrap`) and `archive/` holds retired memories (`/prune`). Neither is indexed.
+@MEMORY-GUIDE.md
 
 ## Tools and skills
 

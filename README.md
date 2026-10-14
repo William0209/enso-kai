@@ -18,7 +18,7 @@ system/
 ├── CLAUDE.md        # global instructions + memory protocol (imported into ~/.claude/CLAUDE.md)
 ├── ROUTING.md       # task → tool table: one task, one tool
 ├── memory/          # your brain (Claude Code autoMemoryDirectory) — starts empty
-│   ├── MEMORY.md    # index, one line per memory
+│   ├── MEMORY.md    # index, one line per memory (rules: MEMORY-GUIDE.md)
 │   ├── sessions/    # per-project resume state
 │   └── archive/     # retired memories
 └── skills/          # 8 baseline skills, linked into ~/.claude/skills/
@@ -66,6 +66,12 @@ git pull upstream main
 ```
 
 Updates flow **from** the template **into** your system, never the other way round. That keeps your memories and keys out of the template.
+
+## Why plain files, not a vector database
+
+Memory is plain markdown, found through a curated index and Grep, with no embeddings and no database server. Projects like Claude OS use SQLite plus semantic search instead. For a few hundred curated facts, files are more precise, need no running services, stay readable and merge cleanly in git. The trade-off is that recall depends on well-written index lines, so [`MEMORY-GUIDE.md`](system/MEMORY-GUIDE.md) treats them as seriously as the facts themselves.
+
+**Revisit this when:** memories pass ~300, the index stays above 150 lines even after `/prune`, memories that exist keep getting missed, or you want to search large document sets. The upgrade path is a *derived* semantic index built from these same markdown files. It would be gitignored and rebuildable on each device, with the files remaining the source of truth.
 
 ## Requirements
 

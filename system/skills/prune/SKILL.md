@@ -9,12 +9,13 @@ disable-model-invocation: true
 A memory is only useful if it's still true. This keeps the brain small and correct.
 
 ## 1. Health report
-Run these checks on the memory directory and show the results as one table, `Check | Finding | Proposed action`:
+Follow the rules in `MEMORY-GUIDE.md`. Run these checks on the memory directory and show the results as one table, `Check | Finding | Proposed action`:
 
 | Check | How |
 |---|---|
 | Index drift | Files with no `MEMORY.md` line, and index lines pointing to missing files |
 | Index size | `MEMORY.md` line count. Warn above 150 lines (only 200 load) |
+| Index quality | Hooks too vague to be found (no subject words or synonyms, no project name) → rewrite per the guide |
 | Duplicates | Memories with the same subject, or near-identical descriptions → merge |
 | Wrong facts | Memories naming files, flags, commands or repos: check that each still exists → fix or delete |
 | Stale | `project` memories untouched (`modified`) for 90+ days, or about finished work → archive |
@@ -28,4 +29,10 @@ Run these checks on the memory directory and show the results as one table, `Che
 - Rewrite `MEMORY.md` grouped by type, one line per memory.
 
 ## 3. Close
-Show before/after counts (memories, index lines) and suggest `/sync`.
+- Write `sessions/_health.md`, which `/begin` reads:
+  ```markdown
+  last_prune: <YYYY-MM-DD>
+  memories: <count>
+  index_lines: <count>
+  ```
+- Show before/after counts (memories, index lines) and suggest `/sync`.
