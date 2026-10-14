@@ -21,6 +21,7 @@ system/
 ├── memory/          # your brain (Claude Code autoMemoryDirectory) — starts empty
 │   ├── MEMORY.md    # index, one line per memory (rules: MEMORY-GUIDE.md)
 │   ├── sessions/    # per-project resume state
+│   ├── inbox/       # imported memories awaiting /onboard review (gitignored)
 │   └── archive/     # retired memories
 └── skills/          # 8 baseline skills, linked into ~/.claude/skills/
 scripts/             # install.ps1 (Windows) · install.sh (macOS / Linux / WSL)
@@ -53,6 +54,8 @@ Saving memories needs no skill: say "remember this: …" and Claude Code's auto 
    ```bash
    sh scripts/install.sh            # macOS / Linux / WSL (add --dry-run to preview)
    ```
+   Already used Claude Code? Your old per-project memories stop loading once Ensō is active. The installer lists them, and `-ImportMemories` (`--import-memories`) copies them into a gitignored `memory/inbox/` for `/onboard` to review with you. The originals are never touched.
+
    The installer is non-destructive. It links skills alongside any you already have, adds a single import line to `~/.claude/CLAUDE.md`, and merges three settings keys (`autoMemoryDirectory`, `env.ENSO_HOME`, and deny rules for secret files). Anything it would replace is backed up to `~/.claude/.enso-backup/`.
 4. Restart Claude Code and run `/onboard`.
 5. Work normally, using `/begin` and `/wrap` around sessions and `/sync` to carry your brain to other devices.

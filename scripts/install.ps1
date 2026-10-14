@@ -6,16 +6,20 @@
   - Links each folder in system/skills into <ClaudeHome>/skills (directory junctions on Windows, no admin needed).
   - Adds an @import of system/CLAUDE.md to <ClaudeHome>/CLAUDE.md.
   - Merges autoMemoryDirectory, env.ENSO_HOME and secret-file deny rules into <ClaudeHome>/settings.json.
+  - Finds existing per-project memories (which Claude Code stops reading once Enso is active) and, with
+    -ImportMemories, copies them into system/memory/inbox (gitignored) for /onboard to review.
   Non-destructive: anything it would replace is moved to <ClaudeHome>/.enso-backup/<timestamp>/ first.
 
 .EXAMPLE
   ./scripts/install.ps1             # install
   ./scripts/install.ps1 -DryRun     # show what would happen
   ./scripts/install.ps1 -Uninstall  # remove links, import and settings keys
+  ./scripts/install.ps1 -ImportMemories  # also copy existing per-project memories into system/memory/inbox
 #>
 param(
     [string]$ClaudeHome = (Join-Path $HOME '.claude'),
     [switch]$Uninstall,
+    [switch]$ImportMemories,
     [switch]$DryRun
 )
 $ErrorActionPreference = 'Stop'
@@ -99,6 +103,36 @@ if ($Uninstall) {
     $block = "$Marker`n$ImportLine`n"
     $text  = if ($lines.Count) { (($lines -join "`n").TrimEnd()) + "`n`n" + $block } else { $block }
     Step "added     $ImportLine" { Write-Utf8 $ClaudeMd $text }
+}
+
+# ---------------------------------------------------------------- existing memories
+if (-not $Uninstall) {
+    Write-Host 'Existing memories'
+    $old = @(Get-ChildItem -Directory (Join-Path $ClaudeHome 'projects') -ErrorAction SilentlyContinue | ForEach-Object {
+        $dir = Join-Path $_.FullName 'memory'
+        if (Test-Path $dir) {
+            $n = @(Get-ChildItem -File -Filter '*.md' $dir | Where-Object { $_.Name -ne 'MEMORY.md' }).Count
+            if ($n) { [pscustomobject]@{ Name = $_.Name; Path = $dir; Count = $n } }
+        }
+    })
+    if (-not $old.Count) {
+        Say 'none found'
+    } else {
+        foreach ($o in $old) { Say ('{0,4} memories in projects/{1}' -f $o.Count, $o.Name) }
+        if ($ImportMemories) {
+            foreach ($o in $old) {
+                $dest = Join-Path $System "memory/inbox/$($o.Name)"
+                Step "copied    projects/$($o.Name) -> memory/inbox" {
+                    New-Item -ItemType Directory -Force -Path $dest | Out-Null
+                    Copy-Item -Path (Join-Path $o.Path '*') -Destination $dest -Recurse -Force
+                }
+            }
+            Say 'Run /onboard to review them into your brain. memory/inbox is gitignored until then.'
+        } else {
+            Say 'Claude Code stops reading these once Enso is active (they are not deleted).'
+            Say 'Re-run with -ImportMemories to copy them into memory/inbox for /onboard to review.'
+        }
+    }
 }
 
 # ---------------------------------------------------------------- settings.json

@@ -5,6 +5,9 @@ secrets/*.dec.*
 *.key
 keys.txt
 
+# Imported memories awaiting review by /onboard (may hold work or private data)
+system/memory/inbox/
+
 # Local-only
 CLAUDE.local.md
 .claude/settings.local.json

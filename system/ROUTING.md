@@ -28,7 +28,7 @@ One task, one tool. When a request matches a row, use that tool; don't reach for
 
 | Task | Use | Not |
 |---|---|---|
-| "Remember this…" | Built-in auto memory (see Memory protocol) | A new skill or a CLAUDE.md edit |
+| "Remember this…" | Built-in auto memory (see the memory guide) | A new skill or a CLAUDE.md edit |
 | "Add this rule to CLAUDE.md" | Edit the relevant CLAUDE.md | Memory |
 | First run on a new machine or for a new user | `/onboard` | — |
 | Start of a work session | `/begin [task]` | Re-explaining context by hand |

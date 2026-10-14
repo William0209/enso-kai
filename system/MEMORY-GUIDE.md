@@ -54,5 +54,5 @@ Save it only if all three are true:
 - **Limits:** index at most 150 lines (only 200 load); memory files at most ~30 lines.
 - **Run `/prune`** about monthly, or when the index passes 120 lines. `/begin` reminds you when it's due.
 - **Archive** finished or dormant project memories (it's reversible). **Delete** only memories that are wrong or duplicated.
-- `sessions/` holds per-project resume state, written by `/wrap` and read by `/begin`. `archive/` holds retired memories. Neither is indexed.
+- `sessions/` holds per-project resume state, written by `/wrap` and read by `/begin`. `archive/` holds retired memories. `inbox/` (gitignored) holds memories imported by the installer until `/onboard` reviews them. None of these are indexed.
 - **Sync conflicts** (after `/sync`): keep both sides' facts, let the newer one win where they disagree, and keep exactly one index line per file.

@@ -3,16 +3,19 @@
 #   - Symlinks each folder in system/skills into $CLAUDE_HOME/skills
 #   - Adds an @import of system/CLAUDE.md to $CLAUDE_HOME/CLAUDE.md
 #   - Merges autoMemoryDirectory, env.ENSO_HOME and secret-file deny rules into settings.json (needs python3)
+#   - Finds existing per-project memories (Claude Code stops reading them once Enso is active) and, with
+#     --import-memories, copies them into system/memory/inbox (gitignored) for /onboard to review.
 # Non-destructive: anything it would replace is moved to $CLAUDE_HOME/.enso-backup/<timestamp>/ first.
 #
-# Usage: scripts/install.sh [--uninstall] [--dry-run]      (CLAUDE_HOME defaults to ~/.claude)
+# Usage: scripts/install.sh [--uninstall] [--import-memories] [--dry-run]      (CLAUDE_HOME defaults to ~/.claude)
 set -eu
 
-UNINSTALL=0; DRY=0
+UNINSTALL=0; DRY=0; IMPORT=0
 for arg in "$@"; do
   case "$arg" in
     --uninstall) UNINSTALL=1 ;;
     --dry-run)   DRY=1 ;;
+    --import-memories) IMPORT=1 ;;
     *) echo "unknown option: $arg" >&2; exit 2 ;;
   esac
 done
@@ -61,6 +64,28 @@ elif [ "$has" -eq 1 ]; then
   say "ok        import present"
 else
   step "added     $IMPORT_LINE" add_import
+fi
+
+# ---------------------------------------------------------------- existing memories
+if [ "$UNINSTALL" -eq 0 ]; then
+  echo "Existing memories"
+  found=0
+  for dir in "$CLAUDE_HOME"/projects/*/memory; do
+    [ -d "$dir" ] || continue
+    n=$(find "$dir" -maxdepth 1 -type f -name '*.md' ! -name MEMORY.md | wc -l | tr -d ' ')
+    [ "$n" -gt 0 ] || continue
+    found=1; proj=$(basename "$(dirname "$dir")")
+    say "$(printf '%4s' "$n") memories in projects/$proj"
+    if [ "$IMPORT" -eq 1 ]; then
+      step "copied    projects/$proj -> memory/inbox" sh -c 'mkdir -p "$2" && cp -R "$1"/. "$2"/' _ "$dir" "$SYSTEM/memory/inbox/$proj"
+    fi
+  done
+  if [ "$found" -eq 0 ]; then say "none found"
+  elif [ "$IMPORT" -eq 1 ]; then say "Run /onboard to review them into your brain. memory/inbox is gitignored until then."
+  else
+    say "Claude Code stops reading these once Enso is active (they are not deleted)."
+    say "Re-run with --import-memories to copy them into memory/inbox for /onboard to review."
+  fi
 fi
 
 # ---------------------------------------------------------------- settings.json

@@ -16,7 +16,7 @@ This repo is the **template** for an Ensō system: a lean Claude Code setup buil
 
 ## Rules for changes
 
-- **Keep the template personal-data-free.** No memories, names, keys or machine paths. `system/memory/` holds only an empty `MEMORY.md` index (section headings only) and the `sessions/` and `archive/` placeholders.
+- **Keep the template personal-data-free.** No memories, names, keys or machine paths. `system/memory/` holds only an empty `MEMORY.md` index (section headings only) and the `sessions/` and `archive/` placeholders. `inbox/` is gitignored and must never be committed.
 - **Never install this template as a live system** while developing it. The installer would point `autoMemoryDirectory` here and real memories would land in the template. Test against a throwaway home instead:
   - Windows: `./scripts/install.ps1 -ClaudeHome <temp dir>`, then `-Uninstall`
   - macOS/Linux/WSL: `CLAUDE_HOME=<temp dir> sh scripts/install.sh`, then `--uninstall`
